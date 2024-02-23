@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +19,9 @@ Route::get('/', function () {
 });
 
 //BASIC ROUTING
-Route::get('/hello', function() {
-    return 'Hello World';
-});
+Route::get('/hello', [WelcomeController::class, 'hello']);
+
+
 // when write the URL to call the route: localhost/PWL_2024/public/hello,
 //that will show text Hello World
 
@@ -30,15 +31,11 @@ Route::get('/world', function () {
 // when write the URL to call the route: localhost/PWL_2024/public/world,
 //that will show text World
 
-Route::get('/', function () {
-    return 'Welcome';
-});
+Route::get('/', [WelcomeController::class, 'index']);
 // when write the URL to call the route: localhost/PWL_2024/public/,
 //that will show text Welcome
 
-Route::get('/about', function() {
-    return '2241720171, Mochamad Wildani Azizi';
-});
+Route::get('/about', [WelcomeController::class, 'about']);
 // when write the URL to call the route: localhost/PWL_2024/public/about,
 //that will show text 2241720171, Mochamad Wildani Azizi
 
@@ -62,9 +59,7 @@ Route::get('/posts/{post}/comments/{comment}', function($postId, $commentID) {
 // that will show text Pos ke-1 Komentar ke-: 5, 1 is value from prameter post
 // and 5 is value from parameter comment
 
-Route::get('/articles/{id}', function($articlesId) {
-    return 'Article Page with ID ' .$articlesId;
-});
+Route::get('/articles/{id}', [WelcomeController::class, 'articles']);
 // when write the URL to call the route: localhost/PWL_2024/public/articles/3
 // that will show text Article Page with ID 3, 3 is value from prameter id
 
@@ -84,3 +79,18 @@ Route::get('/user/{name?}', function ($name='John') {
 // when write the URL to call the route: localhost/PWL_2024/public/user/
 // that will show text Nama saya John cause there's default value from parameter
 // that call John
+
+
+//CONTROLLER
+//Resource Controller
+use App\Http\Controllers\PhotoController;
+
+Route::resource('photos', PhotoController::class);
+
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+]);
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+]);
+   
